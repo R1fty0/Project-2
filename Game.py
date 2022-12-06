@@ -2,84 +2,73 @@
 import os
 import pygame
 
-# Refresh Rate of Program
-FPS = 60
+"""
+Current Problems:
+- When Mouse Button Is Pressed, Game Piece (X or O) is drawn, but is removed when mouse button is released...
 
-# Dimensions of Game Window
-Width, Height = 960, 960
+"""
 
-# Brown Square - Used as a tile on the board
-BrownSquare = pygame.image.load(os.path.join("Assets", "BrownSquare.png"))
+# Frames Per Second
+FPS = 75  # My monitor's Refresh Rate, change it to what you would like.
 
-# Orange Square - Used as a tile on the board
-OrangeSquare = pygame.image.load(os.path.join("Assets", "OrangeSquare.png"))
+# Width and Height of the Window
+WindowWidth, WindowHeight = 800, 800
 
-# Green Checker Piece
+# White Color - the main colour for the background
+White = (255, 255, 255)  # this is an RGB value, it does not work with any other type of color system apparently
 
-GreenChecker = pygame.image.load(os.path.join("Assets", "GreenChecker.png"))
-
-# Blue Checker Piece
-BlueChecker = pygame.image.load(os.path.join("Assets", "BlueChecker.png"))
-
-# Arrays that contain all the pieces of the game.
-# 16 Checker Pieces of each colour. 32 Board Pieces for each color.
-BrownSquarePieces = [BrownSquare, BrownSquare, BrownSquare, BrownSquare,
-                     BrownSquare, BrownSquare, BrownSquare, BrownSquare,
-                     BrownSquare, BrownSquare, BrownSquare, BrownSquare,
-                     BrownSquare, BrownSquare, BrownSquare, BrownSquare,
-                     BrownSquare, BrownSquare, BrownSquare, BrownSquare,
-                     BrownSquare, BrownSquare, BrownSquare, BrownSquare,
-                     BrownSquare, BrownSquare, BrownSquare, BrownSquare,
-                     BrownSquare, BrownSquare, BrownSquare, BrownSquare]
-
-OrangeSquarePieces = [OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare,
-                      OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare,
-                      OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare,
-                      OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare,
-                      OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare,
-                      OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare,
-                      OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare,
-                      OrangeSquare, OrangeSquare, OrangeSquare, OrangeSquare]
-
-GreenCheckerPieces = [GreenChecker, GreenChecker, GreenChecker, GreenChecker,
-                      GreenChecker, GreenChecker, GreenChecker, GreenChecker,
-                      GreenChecker, GreenChecker, GreenChecker, GreenChecker,
-                      GreenChecker, GreenChecker, GreenChecker, GreenChecker,]
+# Images - Loads them from Assets File Folder.
+X = pygame.image.load(os.path.join("Assets", "X.png"))  # 64 x 64
+O = pygame.image.load(os.path.join("Assets", "O.png"))  # 64 x 64
+Board = pygame.image.load(os.path.join("Assets", "Board.png"))  # 685 x 685
 
 
-BlueCheckerPieces = [BlueChecker, BlueChecker, BlueChecker, BlueChecker,
-                     BlueChecker, BlueChecker, BlueChecker, BlueChecker,
-                     BlueChecker, BlueChecker, BlueChecker, BlueChecker,
-                     BlueChecker, BlueChecker, BlueChecker, BlueChecker]
+# Creates Game Window
+Window = pygame.display.set_mode((WindowWidth, WindowHeight))  # Tuple is the dimensions for Width & Height of Window
+# Window Name
+pygame.display.set_caption("Not Tic Tac Toe...")
 
 
-# Creates Window and Name of the Game
-Window = pygame.display.set_mode((Width, Height))
-pygame.display.set_caption("Checkers")
+# IsClicked = False  # True if the Left Mouse Button is Pressed ( NOT IN USE)
 
-def Draw():
+# Turns - Which Player has their turn
+PlayerA = True
+PlayerB = False
+
+"""
+    Functions Below, Variables Above...
+"""
 
 
-    # Updates the Screen with the changes made by this function.
-    pygame.display.update()
+def Graphics(MousePosition, IsKeyDown):  # All Images seen on screen are "drawn" here.
+    Window.fill(White)  # Background Color
+    Window.blit(Board, (WindowWidth/13, WindowHeight/13))  # Board
+
+    if IsKeyDown:
+        Window.blit(X, MousePosition)  # Draws an X at the Mouse Position if the Mouse Button is Pressed.
+
+    pygame.display.update()  # Updates the Screen
 
 
-# All Game Logic is called here...
-def Update():
-    # Clock that maintains FPS
-    clock = pygame.time.Clock()
-    # If this boolean is true, then the program runs.
-    run = True
-    while run:
-        clock.tick(FPS)
-        # Terminates Program if the User Closes the Application
-        for event in pygame.event.get():
+def Run():  # Basically the Unity Update Method - all code runs here.
+
+    GameClock = pygame.time.Clock()  # Clock that maintains FPS
+
+    IsGameRunning = True  # If this boolean is true, then the program runs.
+
+    while IsGameRunning:  # Main Game Loop - code runs here
+        GameClock.tick(FPS)  # Runs the Game at the Desired FPS
+
+        MousePosition = pygame.mouse.get_pos()  # Current Mouse Position
+        IsClicked = pygame.mouse.get_pressed()[0]  # True if the Left Mouse Button is Pressed
+
+        Graphics(MousePosition, IsClicked)  # Visuals on Screen
+        for event in pygame.event.get():  # Quits Program if the X button is pressed
             if event.type == pygame.QUIT:
-                run = False
-                pygame.quit()
-                Draw()
+                IsGameRunning = False
+
+    pygame.quit()  # Quits program
 
 
-# Calls Update Method - similar to Unity's Update Method
-if __name__ == "__Game__":
-    Update()
+if __name__ == "__main__":  # Program Starts Here
+    Run()
