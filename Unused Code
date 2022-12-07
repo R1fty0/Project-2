@@ -1,0 +1,18 @@
+# Player 1 Goal
+Goal1PNG = pygame.image.load(os.path.join("Assets", "Player1Goal.png"))  # 256 x 256
+G1X, G1Y = 256, 256  # X and Y Dimensions
+
+# Player 2 Goal
+Goal2PNG = pygame.image.load(os.path.join("Assets", "Player2Goal.png"))  # 256 x 256
+G2X, G2Y = 256, 256  # X and Y Dimensions
+
+
+Goal1SpawnX = 125
+Goal1SpawnY = 30
+
+Goal2SpawnX = 300
+Goal2SpawnY = 400
+
+
+#Window.blit(Goal1PNG, (Goal1.x, Goal1.y))  # Draws Goal 1
+    #Window.blit(Goal2PNG, (Goal2.x, Goal2.y))  # Draws Goal 2
