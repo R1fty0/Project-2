@@ -18,9 +18,9 @@ WindowWidth, WindowHeight = 800, 800
 White = (255, 255, 255)  # this is an RGB value, it does not work with any other type of color system apparently
 
 # Images - Loads them from Assets File Folder.
-X = pygame.image.load(os.path.join("Assets", "X.png"))  # 64 x 64
-O = pygame.image.load(os.path.join("Assets", "O.png"))  # 64 x 64
-Board = pygame.image.load(os.path.join("Assets", "Board.png"))  # 685 x 685
+X = pygame.image.load(os.path.join("../Assets", "X.png"))  # 64 x 64
+O = pygame.image.load(os.path.join("../Assets", "O.png"))  # 64 x 64
+Board = pygame.image.load(os.path.join("../Assets", "Board.png"))  # 685 x 685
 
 
 # Creates Game Window

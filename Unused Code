@@ -16,3 +16,81 @@ Goal2SpawnY = 400
 
 #Window.blit(Goal1PNG, (Goal1.x, Goal1.y))  # Draws Goal 1
     #Window.blit(Goal2PNG, (Goal2.x, Goal2.y))  # Draws Goal 2
+
+
+
+
+"""
+    Collision Detection
+"""
+
+def CollisionDetection(Player1):
+    # Global Variables
+    global CanMoveLeft
+    global CanMoveRight
+
+    # Checks if Player Has Hit the Left Side of the Window
+    if Player1.left <= 0:
+        CanMoveLeft = False
+    elif Player1.left >= 0:
+        CanMoveLeft = True
+    # Checks if Player Has Hit the Right Side of the Window
+    if Player1.right >= WindowWidth:
+        CanMoveRight = False
+    elif Player1.right <= WindowWidth:
+        CanMoveRight = True
+
+"""
+    Movement
+"""
+
+def Movement(Player1, Player2):
+
+    # Player 1 Movement Code
+    GetKeyDown = pygame.key.get_pressed()  # Basically "Input.GetKeyDown"
+
+    if GetKeyDown[pygame.K_a] and CanMoveLeft:  # Moves Player to the Left
+        Player1.x -= PlayerSpeed
+
+    elif GetKeyDown[pygame.K_d] and CanMoveRight:   # Moves Player to the Right
+        Player1.x += PlayerSpeed
+
+    # Player 2 Movement Code Below
+    if GetKeyDown[pygame.K_LEFT] and CanMoveLeft:  # Moves Player to the Left using the Left Arrow Key
+        Player2.x -= PlayerSpeed
+
+    elif GetKeyDown[pygame.K_RIGHT] and CanMoveRight:   # Moves Player to the Right
+        Player2.x += PlayerSpeed
+
+
+
+
+VividBurgundy = (166, 28, 60)
+IlluminatingEmerald = (91, 146, 121)
+QueenBlue = (58, 110, 165)
+ChampagnePink = (233, 210, 192)
+
+
+
+def CreatePlayerRect(Player):
+    image = Player.image
+    Rect = pygame.Rect(Player.spawnX, Player.spawnY, image.get_width(), image.get_height())
+    return Rect
+
+   # Mid Line Collision Detectio
+    MidLine_Rect = pygame.Rect(WindowWidth/2 - MidLine.get_width()/2,  WindowHeight/2 - MidLine.get_height()/2, MidLine.get_width(), MidLine.get_height())
+
+        def MidLineCollisionDetection(self, Player_Rect, MidLine_Rect):
+
+        if Player_Rect.top == MidLine_Rect.bottom:
+            self.CanMoveUp = False
+
+        elif Player_Rect.bottom == MidLine_Rect.top:
+            self.CanMoveDown = False
+
+        else:
+            self.CanMoveDown = True
+            self.CanMoveUp = True
+
+
+ Window.blit(MidLine,(MidLine_Rect.x, MidLine_Rect.y))
