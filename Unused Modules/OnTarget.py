@@ -114,22 +114,22 @@ class Player:  # Player 1 is Red, Player 2 is Blue
         self.Movement(Player_Rect)  # Player Movement
 
 
-Player1 = Player("Player1", pygame.image.load(os.path.join("Assets", "Player1.png")), WindowWidth/2.2, WindowHeight/8.3,
+Player1 = Player("Player1", pygame.image.load(os.path.join("../Assets", "Player1.png")), WindowWidth / 2.2, WindowHeight / 8.3,
                  10, pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d)
 
-Player2 = Player("Player2", pygame.image.load(os.path.join("Assets", "Player2.png")), WindowWidth/2.2, WindowHeight/1.35,
+Player2 = Player("Player2", pygame.image.load(os.path.join("../Assets", "Player2.png")), WindowWidth / 2.2, WindowHeight / 1.35,
                  10, pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT)
 
-Goal1 = Goal(1, pygame.image.load(os.path.join("Assets", "Goal1.png")))
-Goal2 = Goal(2, pygame.image.load(os.path.join("Assets", "Goal2.png")))
+Goal1 = Goal(1, pygame.image.load(os.path.join("../Assets", "Goal1.png")))
+Goal2 = Goal(2, pygame.image.load(os.path.join("../Assets", "Goal2.png")))
 
-Ball = Ball(pygame.image.load(os.path.join("Assets", "Ball.png")))
+Ball = Ball(pygame.image.load(os.path.join("../Assets", "Ball.png")))
 
 """
     Mid Line
 """
 
-MidLine = MidLine(pygame.image.load(os.path.join("Assets", "MidLine.png")))
+MidLine = MidLine(pygame.image.load(os.path.join("../Assets", "MidLine.png")))
 
 """
     Colours 
