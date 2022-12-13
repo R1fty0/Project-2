@@ -24,6 +24,12 @@ pygame.display.set_caption("Soccer_Game")
 """
 
 
+class Goal:
+    def __init__(self, side, image):
+        self.side = side  # 1 = Player 1, 2 = Player 2
+        self.image = image
+
+
 class Color:
     def __init__(self, color):  # Constructor
         self.color = color  # Tuple containing Color RGB Values
@@ -32,7 +38,7 @@ class Color:
         return self.color
 
 
-class Player:
+class Player:  # Player 1 is Red, Player 2 is Blue
     def __init__(self, name, image, spawnX, spawnY, speed, upKey, downKey, leftKey, rightKey):
         self.name = name
         self.image = image
@@ -48,7 +54,6 @@ class Player:
     CanMoveDown = True
     CanMoveLeft = True
     CanMoveRight = True
-
 
     def WindowCollisionDetection(self, Player_Rect):
 
@@ -102,6 +107,8 @@ Player1 = Player("Player1", pygame.image.load(os.path.join("Assets", "Player1.pn
 Player2 = Player("Player2", pygame.image.load(os.path.join("Assets", "Player2.png")), WindowWidth/2.2, WindowHeight/1.35,
                  10, pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT)
 
+Goal1 = Goal(1, pygame.image.load(os.path.join("Assets", "Goal1.png")))
+Goal2 = Goal(2, pygame.image.load(os.path.join("Assets", "Goal2.png")))
 
 """
     Mid Line
@@ -138,16 +145,23 @@ BallSpawnY = WindowHeight/2
 
 def UI():
     Font = pygame.font.SysFont("Century Schoolbook", 15, True, False)  # Create Font
-    FontLabel = Font.render("Score: 0", False, 1, GrassGreen.GetColor())  # Create Message
-    Window.blit(FontLabel, (0, 0))  # Draw Message at Coordinates
+    FontLabelA = Font.render("Score: 0", False, 1, GrassGreen.GetColor())  # Create Message
+    Window.blit(FontLabelA, (0, 0))  # Draw Message at Coordinates
+
+    FontLabelB = Font.render("Score: 0", False, 1, GrassGreen.GetColor())  # Create Message
+    Window.blit(FontLabelB, (0, WindowHeight - FontLabelA.get_height()))  # Draw Message at Coordinates
+
 
 """
     Graphics
 """
 
 
-def Graphics(Player1_Rect, Player2_Rect):  # All Visuals are "drawn" here.
+def Graphics(Player1_Rect, Player2_Rect, Goal1_Rect, Goal2_Rect):  # All Visuals are "drawn" here.
     Window.fill(GrassGreen.GetColor())  # Background Color
+
+    Window.blit(Goal1.image, (Goal1_Rect.x, Goal1_Rect.y))  # Draw Goal 1
+    Window.blit(Goal2.image, (Goal2_Rect.x, Goal2_Rect.y))  # Draw Goal 2
 
     Window.blit(Player1.image, (Player1_Rect.x, Player1_Rect.y))  # Draws Player 1 Picture at current position of Player 1 Object
     Window.blit(Player2.image, (Player2_Rect.x, Player2_Rect.y))  # Draws Player 2 Picture at current position of Player 2 Object
@@ -171,6 +185,9 @@ def Run():  # Basically the Unity Update Method - all code runs here (Main Game 
     Player1_Rect = pygame.Rect(Player1.spawnX, Player1.spawnY, Player1.image.get_width(), Player1.image.get_height())
     Player2_Rect = pygame.Rect(Player2.spawnX, Player2.spawnY, Player2.image.get_width(), Player2.image.get_height())
 
+    Goal1_Rect = pygame.Rect(WindowWidth/2.65, WindowHeight/6 * -1, Goal1.image.get_width(), Goal1.image.get_height())
+    Goal2_Rect = pygame.Rect(WindowWidth/2.65, WindowHeight/1.14, Goal2.image.get_width(), Goal2.image.get_height())
+
     IsGameRunning = True  # If this boolean is true, then the program runs.
 
     while IsGameRunning:  # Main Game Loop
@@ -178,7 +195,7 @@ def Run():  # Basically the Unity Update Method - all code runs here (Main Game 
         for event in pygame.event.get():  # Quits Program if the X button is pressed
             if event.type == pygame.QUIT:
                 IsGameRunning = False
-        Graphics(Player1_Rect, Player2_Rect)
+        Graphics(Player1_Rect, Player2_Rect, Goal1_Rect, Goal2_Rect)
 
         Player1.MovementAndCollisionDetection(Player1_Rect)
         Player2.MovementAndCollisionDetection(Player2_Rect)
