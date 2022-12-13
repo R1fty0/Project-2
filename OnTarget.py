@@ -22,7 +22,18 @@ pygame.display.set_caption("Soccer_Game")
 """
     Classes
 """
+class GameObject:
+    def __init__(self, image):
+        self.image = image
 
+    def GetImage(self):
+        return self.image
+class MidLine:
+    def __init__(self, image):
+        self.image = image
+class Ball:
+    def __init__(self, image):
+        self.image = image
 
 class Goal:
     def __init__(self, side, image):
@@ -36,7 +47,6 @@ class Color:
 
     def GetColor(self):
         return self.color
-
 
 class Player:  # Player 1 is Red, Player 2 is Blue
     def __init__(self, name, image, spawnX, spawnY, speed, upKey, downKey, leftKey, rightKey):
@@ -55,6 +65,8 @@ class Player:  # Player 1 is Red, Player 2 is Blue
     CanMoveLeft = True
     CanMoveRight = True
 
+    # def GoalCollisionDetection(self, Player_Rect, Goal_Rect):
+        # Checks if Player has hit the Goal Post
     def WindowCollisionDetection(self, Player_Rect):
 
         # Checks if Player has hit the Top of the Window
@@ -96,9 +108,10 @@ class Player:  # Player 1 is Red, Player 2 is Blue
         if GetKeyDown[self.leftKey] and self.CanMoveLeft:  # Moves Player to the Left
             Player_Rect.x -= self.speed
 
-    def MovementAndCollisionDetection(self, Player_Rect):
-        self.WindowCollisionDetection(Player_Rect)
-        self.Movement(Player_Rect)
+    def MovementAndCollisionDetection(self, Player_Rect, Goal_Rect):
+       #  self.GoalCollisionDetection(Player_Rect, Goal_Rect)  # Goal Collision Detection
+        self.WindowCollisionDetection(Player_Rect)  # Window Collision Detection
+        self.Movement(Player_Rect)  # Player Movement
 
 
 Player1 = Player("Player1", pygame.image.load(os.path.join("Assets", "Player1.png")), WindowWidth/2.2, WindowHeight/8.3,
@@ -110,11 +123,13 @@ Player2 = Player("Player2", pygame.image.load(os.path.join("Assets", "Player2.pn
 Goal1 = Goal(1, pygame.image.load(os.path.join("Assets", "Goal1.png")))
 Goal2 = Goal(2, pygame.image.load(os.path.join("Assets", "Goal2.png")))
 
+Ball = Ball(pygame.image.load(os.path.join("Assets", "Ball.png")))
+
 """
     Mid Line
 """
 
-MidLine = (pygame.image.load(os.path.join("Assets", "MidLine.png")))
+MidLine = MidLine(pygame.image.load(os.path.join("Assets", "MidLine.png")))
 
 """
     Colours 
@@ -126,8 +141,6 @@ White = Color((255, 255, 255))
 QueenBlue = Color((58, 110, 165))
 
 
-# Ball
-BallPNG = pygame.image.load(os.path.join("Assets", "Ball.png"))  # 64 x 64
 BX, BY = 48, 48  # X and Y Dimensions
 
 """
@@ -157,14 +170,11 @@ def UI():
 """
 
 
-def Graphics(Player1_Rect, Player2_Rect, Goal1_Rect, Goal2_Rect):  # All Visuals are "drawn" here.
+def Graphics(listOfGameObjects):  # All Visuals are "drawn" here.
     Window.fill(GrassGreen.GetColor())  # Background Color
 
-    Window.blit(Goal1.image, (Goal1_Rect.x, Goal1_Rect.y))  # Draw Goal 1
-    Window.blit(Goal2.image, (Goal2_Rect.x, Goal2_Rect.y))  # Draw Goal 2
-
-    Window.blit(Player1.image, (Player1_Rect.x, Player1_Rect.y))  # Draws Player 1 Picture at current position of Player 1 Object
-    Window.blit(Player2.image, (Player2_Rect.x, Player2_Rect.y))  # Draws Player 2 Picture at current position of Player 2 Object
+    for Rect in listOfGameObjects:
+        Window.blit(Rect.image, (Rect.x, Rect.y))
 
     UI()  # User Interface
 
@@ -179,14 +189,22 @@ def Graphics(Player1_Rect, Player2_Rect, Goal1_Rect, Goal2_Rect):  # All Visuals
 
 
 def Run():  # Basically the Unity Update Method - all code runs here (Main Game Loop).
+    GameObjects = []
 
     GameClock = pygame.time.Clock()  # Clock that maintains FPS
 
     Player1_Rect = pygame.Rect(Player1.spawnX, Player1.spawnY, Player1.image.get_width(), Player1.image.get_height())
+    GameObjects.append(Player1_Rect)
     Player2_Rect = pygame.Rect(Player2.spawnX, Player2.spawnY, Player2.image.get_width(), Player2.image.get_height())
-
+    GameObjects.append(Player2_Rect)
     Goal1_Rect = pygame.Rect(WindowWidth/2.65, WindowHeight/6 * -1, Goal1.image.get_width(), Goal1.image.get_height())
+    GameObjects.append(Goal1_Rect)
     Goal2_Rect = pygame.Rect(WindowWidth/2.65, WindowHeight/1.14, Goal2.image.get_width(), Goal2.image.get_height())
+    GameObjects.append(Goal2_Rect)
+    Ball_Rect = pygame.Rect(WindowWidth/2.15, WindowHeight/2.15, Ball.image.get_width(), Ball.image.get_height())
+    GameObjects.append(Ball_Rect)
+    MidLine_Rect = pygame.Rect(0, WindowHeight/2.15, MidLine.image.get_width(), MidLine.image.get_height())
+    GameObjects.append(MidLine_Rect)
 
     IsGameRunning = True  # If this boolean is true, then the program runs.
 
@@ -195,10 +213,10 @@ def Run():  # Basically the Unity Update Method - all code runs here (Main Game 
         for event in pygame.event.get():  # Quits Program if the X button is pressed
             if event.type == pygame.QUIT:
                 IsGameRunning = False
-        Graphics(Player1_Rect, Player2_Rect, Goal1_Rect, Goal2_Rect)
+        Graphics(GameObjects)
 
-        Player1.MovementAndCollisionDetection(Player1_Rect)
-        Player2.MovementAndCollisionDetection(Player2_Rect)
+        Player1.MovementAndCollisionDetection(Player1_Rect, Goal1_Rect)
+        Player2.MovementAndCollisionDetection(Player2_Rect, Goal2_Rect)
 
     pygame.quit()  # Quits program
 
