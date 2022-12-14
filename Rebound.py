@@ -12,13 +12,13 @@ pygame.font.init()  # Constructor for Fonts in Pygame
 FPS = 60  # My monitor's Refresh Rate, change it to what you would like.
 
 # Width and Height of the Window
-WindowWidth, WindowHeight = 700, 700   # You can this to whatever resolution you would like, but make sure that the WindowHeight is smaller than the WindowWidth, as things otherwise do not scale well.
+WindowWidth, WindowHeight = 1000, 700   # You can this to whatever resolution you would like, but make sure that the WindowHeight is smaller than the WindowWidth, as things otherwise do not scale well.
 
 # Creates Game Window
 Window = pygame.display.set_mode((WindowWidth, WindowHeight))  # Tuple is the dimensions for Width & Height of Window
 
 # Window Name
-pygame.display.set_caption("Rebound")
+pygame.display.set_caption("Rebound V1.2")
 
 """
     Classes
@@ -130,7 +130,9 @@ class Ball(Image):
             DirectionMultiplier = -1
 
         self.xSpeed = random.randrange(self.minBallSpeed, self.maxBallSpeed) * DirectionMultiplier
+        print(self.xSpeed)
         self.ySpeed = random.randrange(self.minBallSpeed, self.maxBallSpeed) * DirectionMultiplier
+        print(self.ySpeed)
 
     def GetSpeed(self, Task):
         if Task == 1:
@@ -146,11 +148,13 @@ class Ball(Image):
 
         # Collision Detection
         if Ball_Rect.top <= 0 or Ball_Rect.bottom >= WindowHeight:
-            self.ySpeed *= -1.25  # Inverts the vertical speed of the ball if it hits the top or bottom of the game window
+            self.ySpeed *= -1.1
+            print(self.ySpeed)  # Inverts the vertical speed of the ball if it hits the top or bottom of the game window
 
         for GameObject in Players:
             if Ball_Rect.colliderect(GameObject):  # If the ball collides with either player, the ball's horizontal velocity is inverted
-                self.xSpeed *= -1.25
+                self.xSpeed *= -1.1
+                print(self.xSpeed)
 
     def BallScoreKeeping(self, Ball_Rect):  # Keeps track of the ball's position, and adds a point if a player's scores.
 
