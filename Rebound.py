@@ -12,7 +12,7 @@ pygame.font.init()  # Constructor for Fonts in Pygame
 FPS = 75  # My monitor's Refresh Rate, change it to what you would like.
 
 # Width and Height of the Window
-WindowWidth, WindowHeight = 400, 400  # You can this to whatever resolution you would like, but make sure that the WindowHeight is smaller than the WindowWidth, as things otherwise do not scale well.
+WindowWidth, WindowHeight = 800, 800  # You can this to whatever resolution you would like, but make sure that the WindowHeight is smaller than the WindowWidth, as things otherwise do not scale well.
 
 # Creates Game Window
 Window = pygame.display.set_mode((WindowWidth, WindowHeight))  # Tuple is the dimensions for Width & Height of Window
