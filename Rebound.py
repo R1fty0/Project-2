@@ -110,25 +110,27 @@ class Image:  # Since All Sprites are Images, this helps to make images more acc
 
 
 class Ball(Image):
-    def __init__(self, image, spawnX, spawnY, imageXSizeDivisor, imageYSizeDivisor):  # Constructor
+    def __init__(self, image, spawnX, spawnY, imageXSizeDivisor, imageYSizeDivisor, minBallSpeed, maxBallSpeed):  # Constructor
         super().__init__(image, imageXSizeDivisor, imageYSizeDivisor)
         self.image = image
         self.spawnX = spawnX
         self.spawnY = spawnY
+        self.minBallSpeed = minBallSpeed
+        self.maxBallSpeed = maxBallSpeed
 
     xSpeed = 0  # Ball's Speed along the X-Axis
     ySpeed = 0  # Ball's Speed along the Y-Axis
 
     def SetStartSpeedAndDirection(self):
-        Direction = random.randrange(1, 8)  # Determines a random starting direction and speed of the ball
+        Direction = random.randrange(self.minBallSpeed, self.maxBallSpeed)  # Determines a random starting direction and speed of the ball
 
-        if Direction <= 5:
+        if Direction <= self.minBallSpeed:
             DirectionMultiplier = 1
         else:
             DirectionMultiplier = -1
 
-        self.xSpeed = random.randrange(4, 6) * DirectionMultiplier
-        self.ySpeed = random.randrange(4, 6) * DirectionMultiplier
+        self.xSpeed = random.randrange(self.minBallSpeed, self.maxBallSpeed) * DirectionMultiplier
+        self.ySpeed = random.randrange(self.minBallSpeed, self.maxBallSpeed) * DirectionMultiplier
 
     def GetSpeed(self, Task):
         if Task == 1:
@@ -144,11 +146,11 @@ class Ball(Image):
 
         # Collision Detection
         if Ball_Rect.top <= 0 or Ball_Rect.bottom >= WindowHeight:
-            self.ySpeed *= -1  # Inverts the vertical speed of the ball if it hits the top or bottom of the game window
+            self.ySpeed *= -2  # Inverts the vertical speed of the ball if it hits the top or bottom of the game window
 
         for GameObject in Players:
             if Ball_Rect.colliderect(GameObject):  # If the ball collides with either player, the ball's horizontal velocity is inverted
-                self.xSpeed *= -1
+                self.xSpeed *= -2
 
     def BallScoreKeeping(self, Ball_Rect):  # Keeps track of the ball's position, and adds a point if a player's scores.
 
@@ -240,11 +242,11 @@ White = Color((255, 255, 255))
 
 # Players
 Player1 = Player(pygame.image.load(os.path.join("Assets", "Player1.png")),
-                 WindowWidth / 40, WindowHeight / 2.6, pygame.K_w, pygame.K_s, 5, 40, 4)
+                 WindowWidth / 40, WindowHeight / 2.6, pygame.K_w, pygame.K_s, 8, 40, 4)
 Player1.ScaleImage()
 
 Player2 = Player(pygame.image.load(os.path.join("Assets", "Player2.png")),
-                 WindowWidth / 1.0526, WindowHeight / 2.6, pygame.K_UP, pygame.K_DOWN, 5, 40, 4)
+                 WindowWidth / 1.0526, WindowHeight / 2.6, pygame.K_UP, pygame.K_DOWN, 8, 40, 4)
 Player2.ScaleImage()
 
 # Mid Line
@@ -252,7 +254,7 @@ MidLine = Image(pygame.image.load(os.path.join("Assets", "MiddleLine.png")), 80,
 MidLine.ScaleImage()
 
 # Ball
-Ball = Ball(pygame.image.load(os.path.join("Assets", "Ball.png")), WindowWidth / 2, WindowHeight / 2, 16.6, 16.6)
+Ball = Ball(pygame.image.load(os.path.join("Assets", "Ball.png")), WindowWidth / 2, WindowHeight / 2, 16.6, 16.6, 2, 3)
 Ball.ScaleImage()
 
 # Score Board
