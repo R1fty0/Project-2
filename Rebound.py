@@ -12,7 +12,7 @@ pygame.font.init()  # Constructor for Fonts in Pygame
 FPS = 75  # My monitor's Refresh Rate, change it to what you would like.
 
 # Width and Height of the Window
-WindowWidth, WindowHeight = 800, 800  # You can this to whatever resolution you would like, but make sure that the WindowHeight is smaller than the WindowWidth, as things otherwise do not scale well.
+WindowWidth, WindowHeight = 700, 700   # You can this to whatever resolution you would like, but make sure that the WindowHeight is smaller than the WindowWidth, as things otherwise do not scale well.
 
 # Creates Game Window
 Window = pygame.display.set_mode((WindowWidth, WindowHeight))  # Tuple is the dimensions for Width & Height of Window
@@ -122,13 +122,13 @@ class Ball(Image):
     def SetStartSpeedAndDirection(self):
         Direction = random.randrange(1, 8)  # Determines a random starting direction and speed of the ball
 
-        if Direction <= 4:
+        if Direction <= 5:
             DirectionMultiplier = 1
         else:
             DirectionMultiplier = -1
 
-        self.xSpeed = random.randrange(1, 3) * DirectionMultiplier
-        self.ySpeed = random.randrange(1, 3) * DirectionMultiplier
+        self.xSpeed = random.randrange(4, 6) * DirectionMultiplier
+        self.ySpeed = random.randrange(4, 6) * DirectionMultiplier
 
     def GetSpeed(self, Task):
         if Task == 1:
@@ -256,7 +256,7 @@ Ball = Ball(pygame.image.load(os.path.join("Assets", "Ball.png")), WindowWidth /
 Ball.ScaleImage()
 
 # Score Board
-Scoreboard = Scoreboard(0, 0, 2, pygame.font.SysFont("Comic Sans", int(WindowWidth/20), False, False))
+Scoreboard = Scoreboard(0, 0, 5, pygame.font.SysFont("Comic Sans", int(WindowWidth/20), False, False))
 
 """
     Graphics
