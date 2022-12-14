@@ -9,7 +9,7 @@ pygame.font.init()  # Constructor for Fonts in Pygame
 """
 
 # Frames Per Second
-FPS = 75  # My monitor's Refresh Rate, change it to what you would like.
+FPS = 60  # My monitor's Refresh Rate, change it to what you would like.
 
 # Width and Height of the Window
 WindowWidth, WindowHeight = 700, 700   # You can this to whatever resolution you would like, but make sure that the WindowHeight is smaller than the WindowWidth, as things otherwise do not scale well.
@@ -146,11 +146,11 @@ class Ball(Image):
 
         # Collision Detection
         if Ball_Rect.top <= 0 or Ball_Rect.bottom >= WindowHeight:
-            self.ySpeed *= -2  # Inverts the vertical speed of the ball if it hits the top or bottom of the game window
+            self.ySpeed *= -1.25  # Inverts the vertical speed of the ball if it hits the top or bottom of the game window
 
         for GameObject in Players:
             if Ball_Rect.colliderect(GameObject):  # If the ball collides with either player, the ball's horizontal velocity is inverted
-                self.xSpeed *= -2
+                self.xSpeed *= -1.25
 
     def BallScoreKeeping(self, Ball_Rect):  # Keeps track of the ball's position, and adds a point if a player's scores.
 
@@ -314,7 +314,6 @@ def Run():  # Basically the Unity Update Method - all the main game logic runs h
 
     while IsGameRunning:  # Main Game Loop - code runs here
         GameClock.tick(FPS)  # Runs the Game at the Desired FPS
-
         for event in pygame.event.get():  # Quits Program if the X button is pressed
             if event.type == pygame.QUIT:
                 pygame.quit()
